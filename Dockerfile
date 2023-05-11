@@ -19,14 +19,15 @@ ARG NODE_VERSION=16.14.0
 FROM node:${NODE_VERSION}-alpine as build
 WORKDIR /opt
 
-COPY package.json tsconfig.json tsconfig.compile.json .barrelsby.json ./
+COPY package.json package-lock.json tsconfig.json tsconfig.compile.json .barrelsby.json ./
 
-RUN yarn install --pure-lockfile
 
+RUN npm install
 
 COPY ./src ./src
 
 
+RUN npm run build
 
 FROM node:${NODE_VERSION}-alpine as runtime
 ENV WORKDIR /opt
@@ -37,7 +38,8 @@ RUN npm install -g pm2
 
 COPY --from=build /opt .
 
-RUN yarn install --pure-lockfile --production
+# RUN yarn install --pure-lockfile --production
+RUN npm install
 
 COPY ./views ./views
 COPY processes.config.js .

@@ -12,4 +12,9 @@ export class CertificateController {
     ctx.response.redirect(301,`https://testnets.opensea.io/assets/goerli/0xacabe10c4227093cc4060ba7586c881e9e9eb683/${id}`);
 
   }
+  @Get("/details/:tokenId")
+  async getDetailsByTokenId(@PathParams("tokenId") tokenId: string) {
+    const details = await this.transactionService.getDetailsByTokenId(tokenId);
+    return details;
+  }
 }

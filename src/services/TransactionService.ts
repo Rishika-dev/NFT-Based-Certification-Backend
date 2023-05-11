@@ -41,5 +41,12 @@ console.log([title,firstName,lastName,dateOfBirth,monthOfBirth,yearOfBirth,dateO
     const tokenId = await this.contract.tokenOfUniqueId(uniqueId);
     return tokenId.toString();
   }
+
+  async getDetailsByTokenId(tokenId: string) {
+    const details = await this.contract.certificateHolders(tokenId);
+    const owner = await this.contract.ownerOf(tokenId);
+    return [...details,owner];
+  }
+
 }
 
