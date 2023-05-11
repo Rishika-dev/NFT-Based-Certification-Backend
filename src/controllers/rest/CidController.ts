@@ -1,7 +1,7 @@
 import { Controller, Post, BodyParams, Inject } from "@tsed/common";
 import { MongooseModel } from "@tsed/mongoose";
 import { CertificateModel } from "../../models/CertificateModel";
-import { TransactionService } from "src/services/TransactionService";
+import { TransactionService } from "../../services/TransactionService";
 
 @Controller("/certificate")
 export class CIDController {

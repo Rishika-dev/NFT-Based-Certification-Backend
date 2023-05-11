@@ -1,7 +1,7 @@
 import {Controller, Inject} from "@tsed/di";
 import { Context, PathParams } from "@tsed/platform-params";
 import {Get} from "@tsed/schema";
-import { TransactionService } from "src/services/TransactionService";
+import { TransactionService } from "../../services/TransactionService";
 
 @Controller("/certificate")
 export class CertificateController {
