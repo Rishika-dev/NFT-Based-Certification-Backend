@@ -3,6 +3,5 @@
  */
 
 export * from "./CertificateController";
-export * from "./CidController";
 export * from "./HelloWorldController";
 export * from "./LoginController";

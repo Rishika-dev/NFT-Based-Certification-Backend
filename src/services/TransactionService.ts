@@ -43,10 +43,23 @@ console.log([title,firstName,lastName,dateOfBirth,monthOfBirth,yearOfBirth,dateO
   }
 
   async getDetailsByTokenId(tokenId: string) {
+    console.log(tokenId, "tokenId");
     const details = await this.contract.certificateHolders(tokenId);
     const owner = await this.contract.ownerOf(tokenId);
     return [...details,owner];
   }
 
+  async editCertificate(tokenId:string, title: string, firstName: string,lastName:string,gender:number, dateOfBirth: number, monthOfBirth: number, yearOfBirth: number, dateOfCertificate: number, monthOfCertificate: number, yearOfCertificate: number, imageCID: string,uniqueId: string) {
+    const tx = await this.contract.edit(tokenId, [title,firstName,lastName,dateOfBirth,monthOfBirth,yearOfBirth,dateOfCertificate,monthOfCertificate,yearOfCertificate,gender,imageCID,uniqueId]);
+    await tx.wait();
+    console.log("Certificate edited");
+    return true
+  }
+  async burnCertificate(tokenId:string) {
+    const tx = await this.contract.burn(tokenId);
+    await tx.wait();
+    console.log("Certificate burned");
+    return true
+  }
 }
 
