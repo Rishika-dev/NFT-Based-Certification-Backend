@@ -7,11 +7,13 @@ export class TransactionService {
   provider: ethers.providers.JsonRpcProvider;
   wallet: ethers.Wallet;
   contract: ethers.Contract;
+  gasPrice = '400';
 constructor(){
-  this.provider = new ethers.providers.JsonRpcProvider("https://eth-goerli.g.alchemy.com/v2/VDWKofjWkh5WwJW4_evfUPs0cP2VsSvp");
+  this.provider = new ethers.providers.JsonRpcProvider("https://polygon-mainnet.g.alchemy.com/v2/R9SlWPf8ox66AdHFzA4V7m-F9ZuN7z65");
   this.wallet = new ethers.Wallet(process.env.PRIVATE_KEY||"", this.provider);
-  this.contract = new ethers.Contract("0xaCAbE10c4227093CC4060bA7586C881e9e9Eb683", abi, this.wallet);
+  this.contract = new ethers.Contract("0xe992AA21f9c15192b50373abeef4dC3de59D144F", abi, this.wallet);
 }
+
   async sendTransaction(
     title: string,
     firstName: string,
@@ -30,7 +32,7 @@ constructor(){
     
 console.log([title,firstName,lastName,dateOfBirth,monthOfBirth,yearOfBirth,dateOfCertificate,monthOfCertificate,yearOfCertificate,gender,imageCID])
     // call the generateCertificate function of the contract
-    const tx = await this.contract.generateCertificate(walletAddress, [title,firstName,lastName,dateOfBirth,monthOfBirth,yearOfBirth,dateOfCertificate,monthOfCertificate,yearOfCertificate,gender,imageCID,uniqueId]);
+    const tx = await this.contract.generateCertificate(walletAddress, [title,firstName,lastName,dateOfBirth,monthOfBirth,yearOfBirth,dateOfCertificate,monthOfCertificate,yearOfCertificate,gender,imageCID,uniqueId],{gasPrice: ethers.utils.parseUnits(this.gasPrice, 'gwei')});
 
     await tx.wait(); // wait for the transaction to be confirmed on the blockchain
     console.log("Certificate generated");
@@ -50,13 +52,13 @@ console.log([title,firstName,lastName,dateOfBirth,monthOfBirth,yearOfBirth,dateO
   }
 
   async editCertificate(tokenId:string, title: string, firstName: string,lastName:string,gender:number, dateOfBirth: number, monthOfBirth: number, yearOfBirth: number, dateOfCertificate: number, monthOfCertificate: number, yearOfCertificate: number, imageCID: string,uniqueId: string) {
-    const tx = await this.contract.edit(tokenId, [title,firstName,lastName,dateOfBirth,monthOfBirth,yearOfBirth,dateOfCertificate,monthOfCertificate,yearOfCertificate,gender,imageCID,uniqueId]);
+    const tx = await this.contract.edit(tokenId, [title,firstName,lastName,dateOfBirth,monthOfBirth,yearOfBirth,dateOfCertificate,monthOfCertificate,yearOfCertificate,gender,imageCID,uniqueId],{gasPrice: ethers.utils.parseUnits(this.gasPrice, 'gwei')});
     await tx.wait();
     console.log("Certificate edited");
     return true
   }
   async burnCertificate(tokenId:string) {
-    const tx = await this.contract.burn(tokenId);
+    const tx = await this.contract.burn(tokenId,{gasPrice: ethers.utils.parseUnits(this.gasPrice, 'gwei')});
     await tx.wait();
     console.log("Certificate burned");
     return true
