@@ -11,7 +11,7 @@ export class CertificateController {
   @Get("/:uid")
   async redirectCertificate(@PathParams("uid") uid: string,@Context() ctx: Context) {
     const id = await this.transactionService.getTokenIdFromUID(uid);
-    ctx.response.redirect(301,`https://testnets.opensea.io/assets/goerli/0xacabe10c4227093cc4060ba7586c881e9e9eb683/${id}`);
+    ctx.response.redirect(301,`https://opensea.io/assets/matic/0xe992aa21f9c15192b50373abeef4dc3de59d144f/${id}`);
 
   }
   @Get("/details/:tokenId")
